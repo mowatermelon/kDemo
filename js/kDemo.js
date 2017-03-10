@@ -132,7 +132,7 @@ function calculateMA(dayCount) {
         for (var j = 0; j < dayCount; j++) {
             sum += data0.values[i - j][1];
         }
-        result.push(sum / dayCount);
+        result.push(parseInt(sum / dayCount));
     }
     return result;
 }
@@ -149,24 +149,51 @@ option = {
     tooltip: {
         trigger: 'axis',
         axisPointer: {
-            type: 'line'
+            type: 'line',
+            rotate:'-30',
+            lineStyle: {
+                color: '#48b',
+                width: 2,
+                type: 'solid'
+            },
+            crossStyle: {
+                color: '#1e90ff',
+                width: 1,
+                type: 'dashed'
+            },
+            shadowStyle: {
+                color: 'rgba(150,150,150,0.3)',
+                width: 'auto',
+                type: 'default'
+            }
+        },
+        textStyle:{
+          fontSize: 10,
+          color:'#fff'
         }
-    },
+     },
     legend: {
-      orient: 'vertical',
-      data:indexdata.category,
-      left:'left'
+      left: 'center',
+      bottom: '5%',
+      data:indexdata.category
     },
+    color:[
+       '#FF3333',    //温度曲线颜色
+       '#53FF53',    //湿度曲线颜色
+       '#B15BFF',    //压强图颜色
+       '#68CFE8',    //雨量图颜色
+       '#FFDC35'    //风速曲线颜色
+       ],
     grid: {
-        left: '10%',
-        right: '10%',
-        bottom: '15%'
+        left: '20%',
+        right: '20%',
+        bottom: '20%'
     },
     xAxis: {
         type: 'category',
         data: data0.categoryData,
         scale: true,
-        boundaryGap : false,
+        boundaryGap : true,
         axisLine: {onZero: false},
         splitLine: {show: false},
         splitNumber: 20,
@@ -179,20 +206,118 @@ option = {
             show: true
         }
     },
+    calculable : true,
     dataZoom: [
         {
             type: 'inside',
-            start: 50,
-            end: 100
+            start: 0,
+            end: 100,
+            bottom: '15%'
         },
         {
-            show: true,
+            show : true,
             type: 'slider',
             y: '90%',
-            start: 50,
-            end: 100
+            start: 0,
+            end: 100,
+            bottom: '15%',
+            realtime : true,
+            start : 20,
+            end : 80
         }
     ],
+    toolbox: {    //工具栏显示
+        show: true,
+        orient: 'vertical',      // 布局方式，默认为水平布局，可选为：
+                                   // 'horizontal' ¦ 'vertical'
+        x: 'right',                // 水平安放位置，默认为全图右对齐，可选为：
+                                   // 'center' ¦ 'left' ¦ 'right'
+                                   // ¦ {number}（x坐标，单位px）
+        y: 'top',                  // 垂直安放位置，默认为全图顶端，可选为：
+                                   // 'top' ¦ 'bottom' ¦ 'center'
+                                   // ¦ {number}（y坐标，单位px）
+        color : ['#1e90ff','#22bb22','#4b0082','#d2691e'],
+        backgroundColor: 'rgba(0,0,0,0)', // 工具箱背景颜色
+        borderColor: '#ccc',       // 工具箱边框颜色
+        borderWidth: 0,            // 工具箱边框线宽，单位px，默认为0（无边框）
+        padding: 5,                // 工具箱内边距，单位px，默认各方向内边距为5，
+        showTitle: true,
+        feature: {
+          mark : {
+              show : true,
+              title : {
+                  mark : '辅助线-开关',
+                  markUndo : '辅助线-删除',
+                  markClear : '辅助线-清空'
+              },
+              lineStyle : {
+                  width : 1,
+                  color : '#1e90ff',
+                  type : 'dashed'
+              }
+          },
+          dataZoom : {
+              show : true,
+              title : {
+                  dataZoom : '区域缩放',
+                  dataZoomReset : '区域缩放-后退'
+              }
+          },
+          dataView : {
+              show : true,
+              title : '数据视图',
+              readOnly: true,
+              lang : ['数据视图', '关闭', '刷新'],
+              optionToContent: function(opt) {
+                  var axisData = opt.xAxis[0].data;
+                  var series = opt.series;
+                  var table = '<table style="width:100%;text-align:center"><tbody><tr>'
+                               + '<td>时间</td>'
+                               + '<td>' + series[0].name + '</td>'
+                               + '<td>' + series[1].name + '</td>'
+                               + '</tr>';
+                  for (var i = 0, l = axisData.length; i < l; i++) {
+                      table += '<tr>'
+                               + '<td>' + axisData[i] + '</td>'
+                               + '<td>' + series[0].data[i] + '</td>'
+                               + '<td>' + series[1].data[i] + '</td>'
+                               + '</tr>';
+                  }
+                  table += '</tbody></table>';
+                  return table;
+              }
+          },
+          magicType: {
+              show : true,
+              title : {
+                  line : '动态类型切换-折线图',
+                  bar : '动态类型切换-柱形图',
+                  stack : '动态类型切换-堆积',
+                  tiled : '动态类型切换-平铺'
+              },
+              type : ['line', 'bar', 'stack', 'tiled']
+          },
+          restore : {
+              show : true,
+              title : '还原',
+              color : 'black'
+          },
+          saveAsImage : {
+              show : true,
+              title : '保存为图片',
+              type : 'jpeg',
+              lang : ['点击本地保存']
+          },
+          myTool : {
+              show : true,
+              title : '自定义扩展方法',
+              icon : 'image://../asset/ico/favicon.png',
+              onclick : function (){
+                  alert('myToolHandler')
+              }
+          }
+        }
+    },
     series: [
         {
             name: '开心平均值',
@@ -277,27 +402,10 @@ option = {
             }
         },
         {
-            name: '有点开心',
-            type: 'line',
-            data: calculateMA(5),
-            smooth: true,
-            lineStyle: {
-                normal: {opacity: 0.5}
-            }
-        },
-        {
-            name: '稍微开心',
-            type: 'line',
-            data: calculateMA(10),
-            smooth: true,
-            lineStyle: {
-                normal: {opacity: 0.5}
-            }
-        },
-        {
             name: '很开心',
             type: 'line',
             data: calculateMA(20),
+            symbol:'emptyrect',
             smooth: true,
             lineStyle: {
                 normal: {opacity: 0.5}
@@ -307,6 +415,8 @@ option = {
             name: '巨开心',
             type: 'line',
             data: calculateMA(30),
+            //symbol:'circle',
+            symbol:'emptydiamond',
             smooth: true,
             lineStyle: {
                 normal: {opacity: 0.5}
