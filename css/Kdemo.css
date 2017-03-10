@@ -21,8 +21,9 @@ h3,h4
 }
 /*header---------------------------------------------------*/
 #echart{
-  min-width:1500px;
-  min-height:700px;
+  min-width:300px;
+  min-height:350px;
+  height: 80%;
   width: 80%;
   margin: 10% auto;
 }

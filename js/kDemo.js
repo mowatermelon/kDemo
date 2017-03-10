@@ -153,9 +153,11 @@ option = {
         }
     },
     legend: {
-      orient: 'vertical',
+      bottom: 10,
+      left: 'center'
+      /*orient: 'vertical',
       data:indexdata.category,
-      left:'left'
+      left:'left'*/
     },
     grid: {
         left: '10%',
