@@ -1,0 +1,28 @@
+/*!
+ * Common v3.3.7
+ */
+*{ padding:0px; margin:0px;}
+body {
+background: #eee;
+overflow:hidden;
+font-family:"宋体";
+}
+.box a{
+    text-decoration: none;
+}
+ul li
+{
+  list-style:none;
+  }
+h3,h4
+{
+    color:rgb(138, 138, 138);
+    text-indent:2em;
+}
+/*header---------------------------------------------------*/
+#echart{
+  min-width:1500px;
+  min-height:700px;
+  width: 80%;
+  margin: 10% auto;
+}
