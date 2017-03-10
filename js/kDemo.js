@@ -153,14 +153,14 @@ option = {
         }
     },
     legend: {
-      left: 'center',
-      bottom: '5%',
-      data:indexdata.category
+      orient: 'vertical',
+      data:indexdata.category,
+      left:'left'
     },
     grid: {
         left: '10%',
         right: '10%',
-        bottom: '20%'
+        bottom: '15%'
     },
     xAxis: {
         type: 'category',
@@ -183,16 +183,14 @@ option = {
         {
             type: 'inside',
             start: 50,
-            end: 100,
-            bottom: '15%'
+            end: 100
         },
         {
             show: true,
             type: 'slider',
             y: '90%',
             start: 50,
-            end: 100,
-            bottom: '15%'
+            end: 100
         }
     ],
     series: [
@@ -276,6 +274,24 @@ option = {
                         valueDim: 'close'
                     }
                 ]
+            }
+        },
+        {
+            name: '有点开心',
+            type: 'line',
+            data: calculateMA(5),
+            smooth: true,
+            lineStyle: {
+                normal: {opacity: 0.5}
+            }
+        },
+        {
+            name: '稍微开心',
+            type: 'line',
+            data: calculateMA(10),
+            smooth: true,
+            lineStyle: {
+                normal: {opacity: 0.5}
             }
         },
         {
