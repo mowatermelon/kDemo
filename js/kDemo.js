@@ -185,18 +185,18 @@ option = {
        '#FFDC35'    //风速曲线颜色
        ],
     grid: {
-        left: '20%',
-        right: '20%',
+        left: '15%',
+        right: '15%',
         bottom: '20%'
     },
     xAxis: {
         type: 'category',
         data: data0.categoryData,
         scale: true,
-        boundaryGap : true,
+        boundaryGap : false,
         axisLine: {onZero: false},
         splitLine: {show: false},
-        splitNumber: 20,
+        splitNumber: 5,
         min: 'dataMin',
         max: 'dataMax'
     },
@@ -204,29 +204,28 @@ option = {
         scale: true,
         splitArea: {
             show: true
-        }
+        },
+        interval:10        
     },
     calculable : true,
     dataZoom: [
         {
             type: 'inside',
-            start: 0,
-            end: 100,
+            start: 50,
+            end: 80,
             bottom: '15%'
         },
         {
             show : true,
             type: 'slider',
             y: '90%',
-            start: 0,
-            end: 100,
+            start: 50,
+            end: 80,
             bottom: '15%',
-            realtime : true,
-            start : 20,
-            end : 80
+            //realtime : true,
         }
     ],
-    toolbox: {    //工具栏显示
+    /*toolbox: {    //工具栏显示
         show: true,
         orient: 'vertical',      // 布局方式，默认为水平布局，可选为：
                                    // 'horizontal' ¦ 'vertical'
@@ -317,7 +316,7 @@ option = {
               }
           }
         }
-    },
+    },*/
     series: [
         {
             name: '开心平均值',
